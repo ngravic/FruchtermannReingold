@@ -1,0 +1,21 @@
+Grafo rueda
+7
+a
+b
+c
+d
+e
+f
+g
+a b
+a g
+b c
+b g
+c d
+c g
+d e
+d g
+e f
+e g
+f a
+f g

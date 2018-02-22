@@ -1,0 +1,27 @@
+Grafo de Petersen
+10
+a
+b
+c
+d
+e
+f
+g
+h
+i
+j
+a f
+a b
+a e
+b g
+b c
+c h
+c d
+d i
+d e
+e j
+j g
+j h
+f i
+f h
+i g

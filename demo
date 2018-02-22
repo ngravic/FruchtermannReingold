@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Agregar permisos de ejecucion al archivo
+chmod +x FruchtermannReingold.py
+clear
+echo A continuacion se mostrara una breve demo con grafos conocidos para demostrar el funcionamiento del algoritmo de Fruchtermann-Reingold
+read -n 1 -s -r -p "Presione una tecla para continuar"
+
+# Correr demo de cada grafo a velocidad rapida
+./FruchtermannReingold.py -s 10000 < reloj > /dev/null
+./FruchtermannReingold.py -s 10000 < octogono > /dev/null
+./FruchtermannReingold.py -s 10000 < k33 > /dev/null
+./FruchtermannReingold.py -s 10000 < k3 > /dev/null
+./FruchtermannReingold.py -s 10000 < k4 > /dev/null
+./FruchtermannReingold.py -s 10000 < k5 > /dev/null
+./FruchtermannReingold.py -s 10000 < arbol > /dev/null
+./FruchtermannReingold.py -s 10000 < rueda > /dev/null
+./FruchtermannReingold.py -s 10000 < petersen > /dev/null
+
+echo
+echo
+read -n 1 -s -r -p "Fin. Presione una tecla para salir"
+echo
+

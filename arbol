@@ -1,0 +1,53 @@
+Grafo arbol
+26
+a
+b
+c
+d
+e
+f
+g
+h
+i
+j
+k
+l
+m
+n
+o
+p
+q
+r
+s
+t
+u
+v
+w
+x
+y
+z
+a b
+b c
+b d
+d f
+d g
+g h
+g i
+c e
+e j
+e z
+e k
+k l
+k m
+z n
+z o
+z p
+n r
+n s
+o t
+t w
+t x
+m q
+q u
+q v
+v y
