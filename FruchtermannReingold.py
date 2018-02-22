@@ -9,10 +9,10 @@ import time
 # Dado un grafo (en formato de listas), aplica el algoritmo de 
 # Fruchtermann-Reingold para obtener (y mostrar) un layout
 class FruchtermannReingold:
-    def __init__(self, title, vertex, edges, iterations, temperature, 
+    def __init__(self, title, vertices, edges, iterations, temperature, 
         attractive_force, repulsive_force, speed):
         self.title = title
-        self.vertex = vertex
+        self.vertices = vertices
         self.edges = edges
         self.iterations = iterations
         self.attractive_force = attractive_force
@@ -32,13 +32,13 @@ class FruchtermannReingold:
     def calculate_repulsion_force(self, value):
         return self.repulsive_force ** 2 / value
 
-    def init_vortex(self):
-        # Initialization of vortex positions in random places
+    def init_vertices(self):
+        # Initialization of vertices positions in random places
         plot_x = self.PLOT_WIDTH / 2
         plot_y = self.PLOT_HEIGHT / 2
         to_ret = []
-        for i in range(0, len(self.vertex)):
-            to_ret.append((self.vertex[i], [random.uniform(-plot_x, plot_x), 
+        for i in range(0, len(self.vertices)):
+            to_ret.append((self.vertices[i], [random.uniform(-plot_x, plot_x), 
                 random.uniform(-plot_y, plot_y)]))
         self.positions = dict(to_ret)
 
@@ -62,21 +62,21 @@ class FruchtermannReingold:
 
     def algorithm_step(self):
         # Initialization of forces
-        for i in range(0, len(self.vertex)):
+        for i in range(0, len(self.vertices)):
             f_node = [0.0, 0.0]
-            self.forces[self.vertex[i]] = f_node
+            self.forces[self.vertices[i]] = f_node
         # Calculation repulsion forces
-        for i in range(len(self.vertex)):
-            vortex_1 = self.vertex[i]
-            for j in range(i + 1, len(self.vertex)):
-                vortex_2 = self.vertex[j]
-                delta = self.sub(self.positions[vortex_1], self.positions[vortex_2])
+        for i in range(len(self.vertices)):
+            vertex_1 = self.vertices[i]
+            for j in range(i + 1, len(self.vertices)):
+                vertex_2 = self.vertices[j]
+                delta = self.sub(self.positions[vertex_1], self.positions[vertex_2])
                 mod_delta = max(self.norm(delta), 0.02)
-                self.forces[vortex_1] = self.sum(self.forces[vortex_1], \
+                self.forces[vertex_1] = self.sum(self.forces[vertex_1], \
                     self.mult(self.div(delta, mod_delta), \
                     self.calculate_repulsion_force(mod_delta))
                 )
-                self.forces[vortex_2] = self.sub(self.forces[vortex_2], \
+                self.forces[vertex_2] = self.sub(self.forces[vertex_2], \
                     self.mult(self.div(delta, mod_delta), \
                     self.calculate_repulsion_force(mod_delta))
                 )
@@ -93,10 +93,10 @@ class FruchtermannReingold:
                 self.calculate_attraction_force(mod_delta))
             )
         # Update positions
-        for vortex in self.vertex:
-            disp = self.forces[vortex]
+        for vertex in self.vertices:
+            disp = self.forces[vertex]
             mod_disp = max(self.norm(disp), 0.02)
-            self.positions[vortex] = self.sum(self.positions[vortex], self.mult(
+            self.positions[vertex] = self.sum(self.positions[vertex], self.mult(
                     self.div(disp, mod_disp), min(mod_disp, self.temperature))
             )
         # Cool
@@ -111,15 +111,11 @@ class FruchtermannReingold:
         y_range_max = max(y_s)
         
         if self.plot == None:
-            self.plot = Gnuplot.Gnuplot()
-            self.plot('set title "{}"'.format(self.title))
+            self.plot = Gnuplot.Gnuplot()            
+            self.plot('set title "{}" font "Helvetica,28" enhanced'.format(self.title))
         self.plot('set xrange [{}:{}]'.format(x_range_min - 100, x_range_max + 100))
         self.plot('set yrange [{}:{}]'.format(y_range_min - 100, y_range_max + 100))
-        u = i = 1        
-        for vortex in self.vertex:
-            self.plot('set object {} circle center {},{} size 5 fc rgb "black"'.format\
-                (i, self.positions[vortex][0], self.positions[vortex][1]))
-            i += 1
+        u = i = 1                
         for edge in self.edges:
             x1 = self.positions[edge[0]][0]
             x2 = self.positions[edge[1]][0]
@@ -128,6 +124,10 @@ class FruchtermannReingold:
             self.plot('set arrow {} nohead from {},{} to {},{}'.format\
                 (u, x1, y1, x2, y2))
             u += 1
+        for vertex in self.vertices:
+            self.plot('set object {} circle center {},{} size 4 fs solid fc rgb "#4AA9AD"'.format\
+                (i, self.positions[vertex][0], self.positions[vertex][1]))
+            i += 1
         if self.created :
             self.plot('replot')
         else :
@@ -143,7 +143,7 @@ class FruchtermannReingold:
         self.created = True
 
     def draw(self):
-        self.init_vortex()
+        self.init_vertices()
         self.__draw__()
         for i in range(0, self.iterations):
             self.algorithm_step()
